@@ -34,6 +34,7 @@ fn main() {
     let multi_cmd: MultiCommand<(str), (str)> = Commander::new()
         .add_cmd(cli::project_boilerplate::project_cmd())
         .add_cmd(cli::package::package_boilerplate::package_cmd())
+        .add_cmd(cli::charts::viz::chart_cmd())
         .add_cmd(dataset)
         .into_cmd("new")
         .description("Generate new projects, models, tests, or data collections");

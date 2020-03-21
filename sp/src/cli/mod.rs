@@ -1,5 +1,6 @@
 pub mod version;
 pub mod package;
+pub mod charts;
 
 pub mod project_boilerplate {
     use std;
