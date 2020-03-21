@@ -70,6 +70,28 @@ pub mod project_boilerplate {
             })
     } 
 
+    pub fn data_cmd<'a>() -> clap_nested::Command<'a, str> {
+        clap_nested::Command::new("dataset")
+        .description("Add a new dataset to an existing superplus project")
+        .options(|app| {
+            app.arg(
+                Arg::with_name("name")
+                    .short("n")
+                    .long("name")
+                    .global(true)
+                    .takes_value(true)
+                    .value_name("STRING")
+                    .help("Set the project name"),
+            )
+        })
+        .runner(|args: &str, matches: &ArgMatches<'_>| {
+            let data_name = matches.value_of("name").unwrap_or("datas");
+            println!("{}", "adding new dataset to project!".blue());
+            Ok(())
+        })
+    }
+
+
     pub fn config_text(project_name: &str) -> std::string::String {
         let get_python = std::process::Command::new("which")
             .arg("python")
