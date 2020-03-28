@@ -16,7 +16,7 @@ fn main() {
         .add_cmd(cli::project_boilerplate::project_cmd())
         .add_cmd(cli::package::package_boilerplate::package_cmd())
         .add_cmd(cli::charts::viz::chart_cmd())
-        .add_cmd(cli::project_boilerplate::data_cmd())
+        .add_cmd(cli::data::data_ops::csv_cmd())
         .into_cmd("new")
         .description("Generate new projects, models, tests, or data collections");
 
