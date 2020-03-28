@@ -1,21 +1,21 @@
 pub mod package_boilerplate {
     use std;
+    use std::env;
     use std::fs;
+    use std::io::{BufRead, BufReader, Error, Write};
     use std::path::Path;
     use std::path::PathBuf;
-    use std::env;
-    use std::io::{Write, BufReader, BufRead, Error};
 
+    use clap::{App, Arg, ArgMatches, SubCommand};
     use clap_nested;
-    use clap::{Arg, App, SubCommand, ArgMatches};
 
-    use colored:: Colorize;
+    use colored::Colorize;
 
-    extern crate serde_json;
     extern crate serde;
+    extern crate serde_json;
     use serde::ser::Serializer;
 
-    use dialoguer::{Input, Confirmation, Checkboxes};
+    use dialoguer::{Checkboxes, Confirmation, Input};
 
     pub fn package_cmd<'a>() -> clap_nested::Command<'a, str> {
         clap_nested::Command::new("package")

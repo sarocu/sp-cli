@@ -1,4 +1,4 @@
-use colored:: Colorize;
+use colored::Colorize;
 
 static VERSION: &'static str = "0.1.0";
 static AUTHOR: &'static str = "SAROCU";

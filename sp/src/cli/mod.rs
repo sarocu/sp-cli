@@ -1,23 +1,23 @@
-pub mod version;
-pub mod package;
 pub mod charts;
 pub mod data;
+pub mod package;
+pub mod version;
 
 pub mod project_boilerplate {
     use std;
+    use std::env;
     use std::fs;
+    use std::io::{BufRead, BufReader, Error, Write};
     use std::path::Path;
     use std::path::PathBuf;
-    use std::env;
-    use std::io::{Write, BufReader, BufRead, Error};
 
+    use clap::{App, Arg, ArgMatches, SubCommand};
     use clap_nested;
-    use clap::{Arg, App, SubCommand, ArgMatches};
 
-    use colored:: Colorize;
+    use colored::Colorize;
 
-    extern crate serde_json;
     extern crate serde;
+    extern crate serde_json;
     use serde::ser::Serializer;
 
     pub fn project_cmd<'a>() -> clap_nested::Command<'a, str> {
@@ -39,20 +39,35 @@ pub mod project_boilerplate {
                 println!("Creating Project: {}", project_name.cyan());
                 let path = PathBuf::from("./").join(project_name);
                 fs::create_dir(path)?;
-                println!("Project Path: {}", PathBuf::from("./").join(project_name).into_os_string().into_string().unwrap().blue());
+                println!(
+                    "Project Path: {}",
+                    PathBuf::from("./")
+                        .join(project_name)
+                        .into_os_string()
+                        .into_string()
+                        .unwrap()
+                        .blue()
+                );
 
                 println!("{}", "Creating config and entrypoint files...".green());
-                let mut config_file = fs::File::create(PathBuf::from("./").join(project_name).join("sp.json"))?;
+                let mut config_file =
+                    fs::File::create(PathBuf::from("./").join(project_name).join("sp.json"))?;
                 config_file.write_all(config_text(project_name).as_bytes())?;
-                
-                let mut entrypoint = fs::File::create(PathBuf::from("./").join(project_name).join("index.py"))?;
+
+                let mut entrypoint =
+                    fs::File::create(PathBuf::from("./").join(project_name).join("index.py"))?;
                 entrypoint.write_all(entrypoint_text().as_bytes());
 
-                let init_file = fs::File::create(PathBuf::from("./").join(project_name).join("__init__.py"))?;
+                let init_file =
+                    fs::File::create(PathBuf::from("./").join(project_name).join("__init__.py"))?;
 
-                let mut req_txt = fs::File::create(PathBuf::from("./").join(project_name).join("requirements.txt"))?;
+                let mut req_txt = fs::File::create(
+                    PathBuf::from("./")
+                        .join(project_name)
+                        .join("requirements.txt"),
+                )?;
                 req_txt.write_all(requirements_text().as_bytes());
-                
+
                 println!("{}", "Creating directory structure...".green());
                 let model_path = PathBuf::from("./").join(project_name).join("models");
                 fs::create_dir(model_path)?;
@@ -66,7 +81,10 @@ pub mod project_boilerplate {
                 let mut data_path = PathBuf::from("./").join(project_name).join("data");
                 fs::create_dir(data_path)?;
 
-                println!("🍻  {} 🍻", "Finished! Boilerplate project created".cyan());
+                println!(
+                    "🍻  {} 🍻",
+                    "Finished! Boilerplate project created".cyan()
+                );
                 Ok(())
             })
     }
@@ -93,7 +111,8 @@ pub mod project_boilerplate {
     }
 
     pub fn entrypoint_text() -> std::string::String {
-        return String::from("import json
+        return String::from(
+            "import json
 import csv
 import pandas
 
@@ -125,11 +144,19 @@ class Index:
     def run_workflow(self):
         pass          
 
-project = Index()");
+project = Index()",
+        );
     }
 
-    pub fn setup_text(package_name: &str, author: &str, email: &str, url: &str, description: &str) -> std::string::String {
-        return format!("from setuptools import setup
+    pub fn setup_text(
+        package_name: &str,
+        author: &str,
+        email: &str,
+        url: &str,
+        description: &str,
+    ) -> std::string::String {
+        return format!(
+            "from setuptools import setup
 
 setup(
     name=\"{package_name}\",
@@ -141,11 +168,18 @@ setup(
     license=\"\",
     packages=[\"{package_name}\"],
     zip_safe=False,
-)", package_name=package_name, description=description, url=url, author=author, email=email)
+)",
+            package_name = package_name,
+            description = description,
+            url = url,
+            author = author,
+            email = email
+        );
     }
 
     pub fn requirements_text() -> std::string::String {
-        return String::from("attrs==19.1.0
+        return String::from(
+            "attrs==19.1.0
 bokeh==1.3.4
 certifi==2019.6.16
 cffi==1.12.3
@@ -175,6 +209,7 @@ statsmodels==0.10.1
 tornado==6.0.3
 urllib3==1.25.3
 websocket-client==0.56.0
-zstandard==0.11.1")
+zstandard==0.11.1",
+        );
     }
 }

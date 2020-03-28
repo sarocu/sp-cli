@@ -7,7 +7,7 @@ extern crate serde_json;
 use clap::{Arg, ArgMatches};
 use clap_nested::{Command, Commander, MultiCommand};
 
-use colored:: Colorize;
+use colored::Colorize;
 
 mod cli;
 

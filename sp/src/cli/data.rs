@@ -1,25 +1,25 @@
 pub mod data_ops {
     use std;
+    use std::env;
     use std::fs;
+    use std::io::{BufRead, BufReader, Write};
     use std::path::Path;
     use std::path::PathBuf;
-    use std::env;
-    use std::io::{Write, BufReader, BufRead};
 
+    use clap::{App, Arg, ArgMatches, SubCommand};
     use clap_nested;
-    use clap::{Arg, App, SubCommand, ArgMatches};
 
-    use colored:: Colorize;
+    use colored::Colorize;
 
     extern crate csv;
     use csv::Reader;
 
-    extern crate serde_json;
     extern crate serde;
-    use serde::{Deserialize, Serialize};
+    extern crate serde_json;
     use serde::ser::Serializer;
+    use serde::{Deserialize, Serialize};
 
-    use dialoguer::{Input, Confirmation, Checkboxes, Select};
+    use dialoguer::{Checkboxes, Confirmation, Input, Select};
 
     pub fn csv_cmd<'a>() -> clap_nested::Command<'a, str> {
         clap_nested::Command::new("csv")
@@ -42,7 +42,7 @@ pub mod data_ops {
             println!("{}", data_path);
             let mut csv_reader = Reader::from_path(data_path).unwrap();
             let headers = csv_reader.headers().unwrap();
-            
+
             let mut select_data = Checkboxes::new();
             for column in headers {
                 select_data.item(column);
@@ -58,16 +58,16 @@ pub mod data_ops {
     struct Configs {
         dependencies: Vec<String>,
         entrypoint: String,
-        project: String, 
-        python_interpreter: String, 
-        data: DataBlock
+        project: String,
+        python_interpreter: String,
+        data: DataBlock,
     }
 
     #[derive(Serialize, Deserialize)]
     struct DataBlock {
         path: String,
         db: String,
-        dataframe:Dataframe
+        dataframe: Dataframe,
     }
 
     #[derive(Serialize, Deserialize)]
@@ -77,15 +77,15 @@ pub mod data_ops {
         vars: Vec<String>,
     }
 
-    
-
-
-
-    pub fn add_to_sp(file_path: &str, dataset_name: &str, fieldnames: Vec<String>, config_path: &str) {
-        let sp_config_file = fs::File::open(file_path)
-            .expect("file should be json");
-        let sp_config: Configs = serde_json::from_reader(sp_config_file)
-            .expect("Contents should be valid json");
+    pub fn add_to_sp(
+        file_path: &str,
+        dataset_name: &str,
+        fieldnames: Vec<String>,
+        config_path: &str,
+    ) {
+        let sp_config_file = fs::File::open(file_path).expect("file should be json");
+        let sp_config: Configs =
+            serde_json::from_reader(sp_config_file).expect("Contents should be valid json");
         let data = sp_config.data;
         println!("{}", data.path);
     }
@@ -94,7 +94,5 @@ pub mod data_ops {
         return String::from("sp.json");
     }
 
-    pub fn add_to_db() {
-
-    }
+    pub fn add_to_db() {}
 }
