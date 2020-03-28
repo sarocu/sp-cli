@@ -7,11 +7,10 @@ pub mod project_boilerplate {
     use std;
     use std::env;
     use std::fs;
-    use std::io::{BufRead, BufReader, Error, Write};
-    use std::path::Path;
+    use std::io::Write;
     use std::path::PathBuf;
 
-    use clap::{App, Arg, ArgMatches, SubCommand};
+    use clap::{Arg, ArgMatches};
     use clap_nested;
 
     use colored::Colorize;

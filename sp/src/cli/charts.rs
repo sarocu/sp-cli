@@ -1,21 +1,14 @@
 pub mod viz {
     use std;
-    use std::env;
-    use std::fs;
-    use std::io::{BufRead, BufReader, Error, Write};
-    use std::path::Path;
-    use std::path::PathBuf;
 
-    use clap::{App, Arg, ArgMatches, SubCommand};
     use clap_nested;
 
     use colored::Colorize;
 
     extern crate serde;
     extern crate serde_json;
-    use serde::ser::Serializer;
 
-    use dialoguer::{Checkboxes, Confirmation, Input, Select};
+    use dialoguer::Select;
 
     pub fn chart_cmd<'a>() -> clap_nested::Command<'a, str> {
         clap_nested::Command::new("viz")

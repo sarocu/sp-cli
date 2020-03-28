@@ -4,10 +4,8 @@ extern crate clap;
 #[macro_use]
 extern crate serde_json;
 
-use clap::{Arg, ArgMatches};
-use clap_nested::{Command, Commander, MultiCommand};
-
-use colored::Colorize;
+use clap::{Arg};
+use clap_nested::{Commander, MultiCommand};
 
 mod cli;
 
