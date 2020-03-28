@@ -98,6 +98,7 @@ pub mod data_ops {
     struct Dataframe {
         name: String,
         path: String,
+        r#type: String,
         vars: Vec<String>,
     }
 
@@ -126,6 +127,7 @@ pub mod data_ops {
         let new_df = Dataframe {
             name: dataset_name.to_string(),
             path: file_path.to_string(),
+            r#type: "csv".to_string(),
             vars: fieldnames,
         };
         sp_config.data.add(new_df);

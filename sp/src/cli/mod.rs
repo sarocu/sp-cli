@@ -48,10 +48,39 @@ pub mod project_boilerplate {
                         .blue()
                 );
 
+                println!("{}", "Creating directory structure...".green());
+                let model_path = PathBuf::from("./").join(project_name).join("models");
+                fs::create_dir(model_path)?;
+
+                let mut test_path = PathBuf::from("./").join(project_name).join("tests");
+                fs::create_dir(test_path)?;
+
+                let mut output_path = PathBuf::from("./").join(project_name).join("output");
+                fs::create_dir(output_path)?;
+
+                let mut data_path = PathBuf::from("./").join(project_name).join("data");
+                fs::create_dir(data_path)?;
+
                 println!("{}", "Creating config and entrypoint files...".green());
+
+                let mut full_data_path = env::current_dir().unwrap();
+                full_data_path.push("data");
+
+                let mut full_model_path = env::current_dir().unwrap();
+                full_model_path.push("models");
+
                 let mut config_file =
                     fs::File::create(PathBuf::from("./").join(project_name).join("sp.json"))?;
-                config_file.write_all(config_text(project_name).as_bytes())?;
+                config_file.write_all(
+                    config_text(
+                        project_name,
+                        &full_data_path
+                            .to_string_lossy(),
+                        &full_model_path
+                            .to_string_lossy(),
+                    )
+                    .as_bytes(),
+                )?;
 
                 let mut entrypoint =
                     fs::File::create(PathBuf::from("./").join(project_name).join("index.py"))?;
@@ -67,19 +96,6 @@ pub mod project_boilerplate {
                 )?;
                 req_txt.write_all(requirements_text().as_bytes());
 
-                println!("{}", "Creating directory structure...".green());
-                let model_path = PathBuf::from("./").join(project_name).join("models");
-                fs::create_dir(model_path)?;
-
-                let mut test_path = PathBuf::from("./").join(project_name).join("tests");
-                fs::create_dir(test_path)?;
-
-                let mut output_path = PathBuf::from("./").join(project_name).join("output");
-                fs::create_dir(output_path)?;
-
-                let mut data_path = PathBuf::from("./").join(project_name).join("data");
-                fs::create_dir(data_path)?;
-
                 println!(
                     "🍻  {} 🍻",
                     "Finished! Boilerplate project created".cyan()
@@ -88,7 +104,11 @@ pub mod project_boilerplate {
             })
     }
 
-    pub fn config_text(project_name: &str) -> std::string::String {
+    pub fn config_text(
+        project_name: &str,
+        data_path: &str,
+        model_path: &str,
+    ) -> std::string::String {
         let get_python = std::process::Command::new("which")
             .arg("python")
             .output()
@@ -102,8 +122,15 @@ pub mod project_boilerplate {
             "entrypoint":"index.py",
             "dependencies":[],
             "python_interpreter":String::from_utf8_lossy(&python_path),
-            "workflow":{},
-            "data":{}
+            "models":{
+                "path":model_path,
+                "classes":[]
+            },
+            "data":{
+                "path":data_path,
+                "db":"",
+                "dataframe":[]
+            }
         });
 
         return serde_json::to_string_pretty(&config_string).unwrap();
