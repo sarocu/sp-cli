@@ -2,6 +2,7 @@ pub mod charts;
 pub mod data;
 pub mod package;
 pub mod version;
+pub mod models;
 
 pub mod project_boilerplate {
     use std;
@@ -148,20 +149,22 @@ class Index:
             self.config = json.load(configs)
         
         self.data = {}
+        self.load_data()
+        self.load_models()
 
     def load_data(self):
-        for dataset in self.config[\"data\"]:
-            data_object = self.data[dataset]
-            if data_object[\"type\"] == \"csv\":
-                self.data[dataset] = pandas.read_csv(data_object[\"file_path\"])
-            elif data_object[\"type\"] == \"json\":
-                self.data[dataset] = json.load(data_object[\"file_path\"])
+        for dataset in self.config[\"data\"][\"dataframe\"]:
+            if dataset[\"type\"] == \"csv\":
+                self.data[dataset[\"name\"]] = pandas.read_csv(dataset[\"path\"])
+            elif dataset[\"type\"] == \"json\":
+                self.data[dataset[\"name\"]] = json.load(dataset[\"path\"])
             else:
                 continue
 
     def load_models(self):
-        for model in self.config[\"workflow\"][\"models\"]:
+        for model in self.config[\"models\"][\"classes\"]:
             try:
+                print(model[\"name\"])
                 model_path = \"models.\" + model[\"name\"]
                 __import__(model_path)
             except Exception as error:

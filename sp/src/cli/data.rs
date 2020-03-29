@@ -73,19 +73,20 @@ pub mod data_ops {
     }
 
     #[derive(Serialize, Deserialize)]
-    struct Configs {
-        dependencies: Vec<String>,
-        entrypoint: String,
-        project: String,
-        python_interpreter: String,
-        data: DataBlock,
+    pub struct Configs {
+        pub dependencies: Vec<String>,
+        pub entrypoint: String,
+        pub project: String,
+        pub python_interpreter: String,
+        pub data: DataBlock,
+        pub models: Models,
     }
 
     #[derive(Serialize, Deserialize)]
-    struct DataBlock {
-        path: String,
-        db: String,
-        dataframe: RefCell<Vec<Dataframe>>,
+    pub struct DataBlock {
+        pub path: String,
+        pub db: String,
+        pub dataframe: RefCell<Vec<Dataframe>>,
     }
 
     impl DataBlock {
@@ -95,18 +96,30 @@ pub mod data_ops {
     }
 
     #[derive(Serialize, Deserialize)]
-    struct Dataframe {
-        name: String,
-        path: String,
-        r#type: String,
-        vars: Vec<String>,
+    pub struct Dataframe {
+        pub name: String,
+        pub path: String,
+        pub r#type: String,
+        pub vars: Vec<String>,
     }
 
-    // impl Dataframe {
-    //     pub fn add(&self, value: String) {
-    //         self.vars.borrow_mut().push(value);
-    //     }
-    // }
+    #[derive(Serialize, Deserialize)]
+    pub struct Models {
+        pub path: String,
+        pub classes: RefCell<Vec<ModelClass>>,
+    }
+
+    impl Models {
+        pub fn add(&self, value: ModelClass) {
+            self.classes.borrow_mut().push(value);
+        }
+    }
+
+    #[derive(Serialize, Deserialize)]
+    pub struct ModelClass {
+        pub path: String,
+        pub name: String
+    }
 
     pub fn add_to_sp(
         file_path: &str,
