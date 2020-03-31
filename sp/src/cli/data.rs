@@ -70,7 +70,7 @@ pub mod data_ops {
             let date_var = has_date.with_prompt(&format!("{}", "Is one of these columns a date or datetime? (hint: use space bar to select)".cyan())).interact()?;
 
             let config_path = find_sp_config();
-            let test_stuff = vec!["things".to_string()];
+
             let mut fields_for_df = Vec::new();
             for index in selected_items {
                 fields_for_df.push(headers[index].into());

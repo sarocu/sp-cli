@@ -1,5 +1,10 @@
 pub mod viz {
     use std;
+    use std::env;
+    use std::fs;
+    use std::fs::File;
+    use std::collections::HashMap;
+    use std::io::{Write, Read};
 
     use clap_nested;
 
@@ -15,7 +20,7 @@ pub mod viz {
             .description("Add a new vizualization using Bokeh to an existing Superplus Project")
             .runner(|args, matches| {
                 println!("{}", "📈   Create a Bokeh Vizualization 📊".cyan());
-                let chart_type = Select::new()
+                let select_chart = Select::new()
                     .with_prompt(&format!("{}", "Select a chart type to add:".cyan()))
                     .item("Basic Bar Chart")
                     .item("Basic Line Chart")
@@ -25,50 +30,35 @@ pub mod viz {
                     .item("Timeseries Chart")
                     .interact()?;
 
+                
+                let dispatch = {
+                    let mut chart_type: HashMap<usize, (String, String)> = HashMap::new();
+                    chart_type.insert(0, bar_charts());
+                    chart_type.insert(1, simple_line());
+                    chart_type
+                };
+
+                let (file_contents, file_name) = &dispatch[&select_chart];
+                // let file_contents = &dispatch[chart_type].0;
+                // let file_name = &dispatch[chart_type].1;
+                let mut file_path = env::current_dir().unwrap();
+                file_path.push("visualizations");
+                file_path.push(file_name);
+                let mut viz_file = fs::File::create(file_path)?;
+                viz_file.write_all(file_contents.as_bytes());
                 Ok(())
             })
     }
 
-    pub fn simple_line() -> std::string::String {
-        return String::from("from bokeh.plotting import figure, output_file, show
-from bokeh.models import ColumnDataSource
-import pandas
+    pub fn simple_line() -> (std::string::String, std::string::String) {
+        let line_bytes = include_bytes!("../boilerplate/simple_line.py");
+        let contents = String::from_utf8_lossy(line_bytes);
+        return (contents.to_string(), String::from("simple_line.py"));
+    }
 
-
-class SimpleLineChart:
-    def __init__(
-        self, title, xlabel, ylabel, save_as=\"output/line.html\", date_axis=False
-    ):
-        self.title = title
-        self.source = None
-
-        if date_axis:
-            self.viz = figure(
-                title=title,
-                x_axis_label=xlabel,
-                y_axis_label=ylabel,
-                x_axis_type=\"datetime\",
-            )
-        else:
-            self.viz = figure(title=title, x_axis_label=xlabel, y_axis_label=ylabel)
-
-        output_file(save_as)
-
-    def set_data(self, dataframe):
-        self.source = ColumnDataSource(data=dataframe)
-        return self
-
-    def add_line(self, xvar, yvar, **kwargs):
-        print(kwargs)
-        if \"marker\" in kwargs:
-            pass
-        else:
-            self.viz.line(xvar, yvar, source=self.source, **kwargs)
-
-        return self
-
-    def render(self):
-        show(self.viz)
-");
+    pub fn bar_charts() -> (std::string::String, std::string::String) {
+        let bar_bytes = include_bytes!("../boilerplate/bar_charts.py");
+        let contents = String::from_utf8_lossy(bar_bytes);
+        return (contents.to_string(), String::from("bar_charts.py"));
     }
 }
