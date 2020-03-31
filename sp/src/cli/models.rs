@@ -93,6 +93,7 @@ pub mod model_ops {
     pub fn simple_linear() -> std::string::String {
         return String::from(
             "import pandas
+import numpy
 from sklearn.linear_model import LinearRegression
 
 
@@ -101,20 +102,32 @@ class SimpleLinear:
         self.predictor = predictorKey
         self.response = responseKey
 
-    def setData(self, predictorArray, responseArray):
+    def set_data(self, dataframe):
+        predictorArray = dataframe[self.predictor]
+        responseArray = dataframe[self.response]
         self.x = predictorArray.values.reshape(-1, 1)
         self.y = responseArray.values.reshape(-1, 1)
+        return self
 
-    def results(self):
-        self.fit = LinearRegression().fit(self.x, self.y)
+    def fit(self):
+        self.fitted_model = LinearRegression().fit(self.x, self.y)
+        return self
 
-    def runTests(self):
+    def predict_one(self, value):
+        return self.fitted_model.predict(numpy.array([value]).reshape(1, -1))
+
+    def predict(self, value_list):
+        return self.fitted_model.predict(numpy.array(value_list).reshape(-1, 1))
+
+    def run_tests(self):
         test_set = []
 
         # Standard score method, includes R2:
-        test_set.append({\"test\": \"r2\", \"results\": self.fit.score(self.x, self.y)})
-
-        return test_set",
+        test_set.append(
+            {\"test\": \"r2\", \"results\": self.fitted_model.score(self.x, self.y)}
+        )
+        return test_set
+",
         );
     }
 

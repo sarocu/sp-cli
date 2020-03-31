@@ -20,7 +20,7 @@ pub mod data_ops {
     extern crate serde_json;
     use serde::{Deserialize, Serialize};
 
-    use dialoguer::{Checkboxes, Confirmation, Input};
+    use dialoguer::{Checkboxes, Confirmation, Input, Select};
 
     pub fn csv_cmd<'a>() -> clap_nested::Command<'a, str> {
         clap_nested::Command::new("csv")
@@ -60,14 +60,25 @@ pub mod data_ops {
                 select_data.item(column);
             }
 
-            let selected_items = select_data.item("All Columns").with_prompt(&format!("{}", "Which columns would you like to add to a dataframe? (hint: use space bar to select)".cyan())).interact()?;
+            let selected_items = select_data.with_prompt(&format!("{}", "Which columns would you like to add to a dataframe? (hint: use space bar to select)".cyan())).interact()?;
+
+            let mut has_date = Select::new();
+            for column in headers {
+                has_date.item(column);
+            }
+
+            let date_var = has_date.with_prompt(&format!("{}", "Is one of these columns a date or datetime? (hint: use space bar to select)".cyan())).interact()?;
+
             let config_path = find_sp_config();
             let test_stuff = vec!["things".to_string()];
             let mut fields_for_df = Vec::new();
             for index in selected_items {
                 fields_for_df.push(headers[index].into());
             }
-            add_to_sp(&save_path, &data_name, fields_for_df, config_path);
+
+            let mut date_var = headers[date_var].to_string();
+
+            add_to_sp(&save_path, &data_name, fields_for_df, config_path, &date_var);
             Ok(())
         })
     }
@@ -101,6 +112,8 @@ pub mod data_ops {
         pub path: String,
         pub r#type: String,
         pub vars: Vec<String>,
+        pub datetime: String,
+        pub datetime_format: String,
     }
 
     #[derive(Serialize, Deserialize)]
@@ -126,6 +139,7 @@ pub mod data_ops {
         dataset_name: &str,
         fieldnames: Vec<String>,
         config_path: PathBuf,
+        date_var: &str,
     ) {
         let mut sp_config_file = OpenOptions::new()
             .read(true)
@@ -142,6 +156,8 @@ pub mod data_ops {
             path: file_path.to_string(),
             r#type: "csv".to_string(),
             vars: fieldnames,
+            datetime: date_var.to_string(),
+            datetime_format: String::new(),
         };
         sp_config.data.add(new_df);
 
