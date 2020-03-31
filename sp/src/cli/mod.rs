@@ -147,35 +147,9 @@ pub mod project_boilerplate {
     }
 
     pub fn entrypoint_text() -> std::string::String {
-        return String::from(
-            "import json
-import csv
-import pandas
-
-class Index:
-    def __init__(self):
-        with open(\"./sp.json\", \"r\") as configs:
-            self.config = json.load(configs)
-        
-        self.data = {}
-        self.load_data()
-        self.load_models()
-
-    def load_data(self):
-        for dataset in self.config[\"data\"][\"dataframe\"]:
-            if dataset[\"type\"] == \"csv\":
-                self.data[dataset[\"name\"]] = pandas.read_csv(dataset[\"path\"])[
-                    [*dataset[\"vars\"]]
-                ]
-                if dataset[\"datetime\"]:
-                    self.data[dataset[\"name\"]][
-                        dataset[\"datetime\"]
-                    ] = pandas.to_datetime(
-                        self.data[dataset[\"name\"]][dataset[\"datetime\"]]
-
-
-project = Index()",
-        );
+        let index_bytes = include_bytes!("../boilerplate/index.py");
+        let contents = String::from_utf8_lossy(index_bytes);
+        return contents.to_string();
     }
 
     pub fn setup_text(
@@ -208,47 +182,8 @@ setup(
     }
 
     pub fn requirements_text() -> std::string::String {
-        return String::from(
-            "atomicwrites==1.2.1
-attrs==19.1.0
-bokeh==2.0.1
-certifi==2019.6.16
-cffi==1.12.3
-chardet==3.0.4
-Click==7.0
-docker==4.0.2
-idna==2.8
-Jinja2==2.11.1
-joblib==0.13.2
-MarkupSafe==1.1.1
-more-itertools==4.3.0
-numpy==1.18.2
-packaging==20.3
-pandas==0.25.0
-patsy==0.5.1
-Pillow==7.0.0
-pip-tools==4.0.0
-pluggy==0.8.0
-py==1.7.0
-pycparser==2.19
-pyparsing==2.4.6
-pytest==4.0.1
-python-dateutil==2.8.1
-pytz==2019.2
-PyYAML==5.3.1
-requests==2.22.0
-scikit-learn==0.21.3
-scipy==1.3.1
-selenium==3.141.0
-six==1.14.0
-splinter==0.10.0
-statsmodels==0.10.1
-tornado==6.0.4
-typing-extensions==3.7.4.1
-urllib3==1.25.3
-websocket-client==0.56.0
-zstandard==0.11.1
-",
-        );
+        let req_bytes = include_bytes!("../boilerplate/requirements.txt");
+        let contents = String::from_utf8_lossy(req_bytes);
+        return contents.to_string();
     }
 }

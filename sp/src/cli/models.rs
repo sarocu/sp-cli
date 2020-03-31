@@ -91,70 +91,15 @@ pub mod model_ops {
     }
 
     pub fn simple_linear() -> std::string::String {
-        return String::from(
-            "import pandas
-import numpy
-from sklearn.linear_model import LinearRegression
-
-
-class SimpleLinear:
-    def __init__(self, predictorKey, responseKey):
-        self.predictor = predictorKey
-        self.response = responseKey
-
-    def set_data(self, dataframe):
-        predictorArray = dataframe[self.predictor]
-        responseArray = dataframe[self.response]
-        self.x = predictorArray.values.reshape(-1, 1)
-        self.y = responseArray.values.reshape(-1, 1)
-        return self
-
-    def fit(self):
-        self.fitted_model = LinearRegression().fit(self.x, self.y)
-        return self
-
-    def predict_one(self, value):
-        return self.fitted_model.predict(numpy.array([value]).reshape(1, -1))
-
-    def predict(self, value_list):
-        return self.fitted_model.predict(numpy.array(value_list).reshape(-1, 1))
-
-    def run_tests(self):
-        test_set = []
-
-        # Standard score method, includes R2:
-        test_set.append(
-            {\"test\": \"r2\", \"results\": self.fitted_model.score(self.x, self.y)}
-        )
-        return test_set
-",
-        );
+        let linear_bytes = include_bytes!("../boilerplate/simple_linear.py");
+        let contents = String::from_utf8_lossy(linear_bytes);
+        return contents.to_string();
     }
 
     pub fn vector_ar() -> std::string::String {
-        return String::from(
-            "import statsmodels.api as sm
-import numpy
-
-
-class VectorAutoRegressive:
-    def __init__(self, maxLags, criterion):
-        self.lags = maxLags
-        self.ic = criterion
-
-    def setData(self, timeseries):
-        self.model = sm.tsa.VAR(timeseries)
-
-    def results(self):
-        self.fit = self.model.fit(maxlags=self.lags, ic=self.ic)
-
-    def runTests(self):
-        test_set = []
-
-        test_set.append({\"test\": \"lag-order\", \"value\": self.fit.k_ar})
-
-        return test_set",
-        );
+        let var_bytes = include_bytes!("../boilerplate/var.py");
+        let contents = String::from_utf8_lossy(var_bytes);
+        return contents.to_string();
     }
 
 }

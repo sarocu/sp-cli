@@ -4,18 +4,12 @@ import pandas
 
 
 class BarCharts:
-    def __init__(
-        self, title, save_as="output/bars.html", date_axis=False, **kwargs
-    ):
+    def __init__(self, title, save_as="output/bars.html", date_axis=False, **kwargs):
         self.title = title
         self.source = None
 
         if date_axis:
-            self.viz = figure(
-                title=title,
-                x_axis_type="datetime",
-                **kwargs,
-            )
+            self.viz = figure(title=title, x_axis_type="datetime", **kwargs,)
         else:
             self.viz = figure(title=title, **kwargs)
 

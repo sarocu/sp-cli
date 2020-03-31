@@ -5,7 +5,13 @@ import pandas
 
 class SimpleLineChart:
     def __init__(
-        self, title, xlabel, ylabel, save_as="output/line.html", date_axis=False, **kwargs
+        self,
+        title,
+        xlabel,
+        ylabel,
+        save_as="output/line.html",
+        date_axis=False,
+        **kwargs
     ):
         self.title = title
         self.source = None
@@ -19,7 +25,9 @@ class SimpleLineChart:
                 **kwargs,
             )
         else:
-            self.viz = figure(title=title, x_axis_label=xlabel, y_axis_label=ylabel, **kwargs)
+            self.viz = figure(
+                title=title, x_axis_label=xlabel, y_axis_label=ylabel, **kwargs
+            )
 
         output_file(save_as)
 
