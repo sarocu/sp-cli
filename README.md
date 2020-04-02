@@ -25,6 +25,15 @@ sp new model --type simple_linear
 
 # add some visualizations:
 sp new viz
+# output:
+📈   Create a Bokeh Vizualization 📊
+Select a chart type to add::
+  Basic Bar Chart
+> Basic Line Chart
+  Histogram
+  Scatter Plot
+  Boxplot
+  Timeseries Chart
 ```
 
 ## Command Options
