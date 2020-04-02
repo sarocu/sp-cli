@@ -37,6 +37,6 @@ fn main() {
             cli::version::version_info();
             Ok(())
         })
-        .run()
-        .unwrap();
+        .run();
+        // .unwrap();
 }

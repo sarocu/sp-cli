@@ -42,7 +42,7 @@ pub mod data_ops {
 
             println!("{}", "adding new dataset to project!".blue());
             let data_name = Input::<String>::new().with_prompt("What do you want to call this dataset?").interact()?;
-            println!("{}", data_path);
+
             let mut csv_reader = Reader::from_path(data_path).unwrap();
             let headers = csv_reader.headers().unwrap();
 
