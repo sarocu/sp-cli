@@ -3,6 +3,7 @@ pub mod data;
 pub mod package;
 pub mod version;
 pub mod models;
+pub mod api;
 
 pub mod project_boilerplate {
     use std;
@@ -18,7 +19,6 @@ pub mod project_boilerplate {
 
     extern crate serde;
     extern crate serde_json;
-    use serde::ser::Serializer;
 
     pub fn project_cmd<'a>() -> clap_nested::Command<'a, str> {
         clap_nested::Command::new("project")
