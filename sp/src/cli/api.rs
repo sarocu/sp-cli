@@ -41,6 +41,10 @@ pub mod api_ops {
                     fs::File::create(PathBuf::from("./").join("api").join("app.py"))?;
                 app_text.write_all(get_app().as_bytes());
 
+                let mut env_text =
+                    fs::File::create(PathBuf::from("./").join("api").join(".sample.env"))?;
+                app_text.write_all(get_api_env().as_bytes());
+
                 let mut dec_text =
                     fs::File::create(PathBuf::from("./").join("api").join("decorators.py"))?;
                 dec_text.write_all(get_decorators().as_bytes());
@@ -156,6 +160,12 @@ pub mod api_ops {
 
     pub fn get_api_reqs() -> std::string::String {
         let get_bytes = include_bytes!("../boilerplate/api/requirements.txt");
+        let contents = String::from_utf8_lossy(get_bytes);
+        return contents.to_string();
+    }
+
+    pub fn get_api_env() -> std::string::String {
+        let get_bytes = include_bytes!("../boilerplate/api/.sample.env");
         let contents = String::from_utf8_lossy(get_bytes);
         return contents.to_string();
     }
