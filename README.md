@@ -36,13 +36,19 @@ Select a chart type to add::
   Timeseries Chart
 ```
 
+## Scaffold out a REST API Project
+`sp` can generate boilerplate for a Flask API project, including Docker assets and Gunicorn/Supervisord configs. Just do `sp new api` and follow the prompts.
+
 ## Command Options
+Superplus CLI generates code for a number of applications including microservice APIs, queues, machine learning and data science projects
+
 | Command | Subcommand | Option | Description |
 |---------|------------|--------|-------------|
 | new | project | `-n` or `--name` | Name of the project and directory |
 | new | csv | `-p` or `--path` | Path to a CSV file you want to include in the project |
 | new | viz | N/A | Kicks off the new visualization workflow |
 | new | model | `-t` or `--type` | type of model you'd like to boilerplate for |
+| new | api | N/A | Kicks off the  new Flask API workflow |
 
 ## Add to path:
 After building with `cargo build`, add the `sp` executable to the path for use:

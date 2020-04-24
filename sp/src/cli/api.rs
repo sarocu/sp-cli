@@ -43,7 +43,7 @@ pub mod api_ops {
 
                 let mut env_text =
                     fs::File::create(PathBuf::from("./").join("api").join(".sample.env"))?;
-                app_text.write_all(get_api_env().as_bytes());
+                env_text.write_all(get_api_env().as_bytes());
 
                 let mut dec_text =
                     fs::File::create(PathBuf::from("./").join("api").join("decorators.py"))?;
@@ -82,7 +82,7 @@ pub mod api_ops {
 
                     let mut task_text =
                         fs::File::create(PathBuf::from("./").join("api").join("tasks.py"))?;
-                    celery_text.write_all(get_tasks().as_bytes());
+                    task_text.write_all(get_tasks().as_bytes());
 
                     if add_docker {
                         let mut compose_text =
