@@ -1,11 +1,17 @@
 # sp-cli
 The Superplus CLI is here to generate boilerplate statistical learning project assets. This includes generating basic project structure, creating new models, making tests and generating visualizations. 
 
-## Building the CLI
+## Building from Source
 Build from source using the Rust's `cargo`:
 ```
 cd sp
 cargo build
+```
+
+Or build optimized releases using Make:
+```bash
+make clean
+make release
 ```
 
 ## Create a new project

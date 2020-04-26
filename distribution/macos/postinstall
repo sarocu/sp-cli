@@ -1,4 +1,0 @@
-#!/bin/sh
-
-set -e
-/bin/launchctl load "/Library/superplus/sarocu.superplus.plist"

@@ -8,4 +8,5 @@ clean:
 	rm -rf sp/target
 
 package-mac:
-	echo "Building Packages for MacOS"; 
+	echo "Building Packages for MacOS"; cd sp; cargo build --release; \
+	cp target/release/sp ../distribution/macos/artifacts/
