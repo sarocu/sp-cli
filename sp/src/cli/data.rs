@@ -5,7 +5,6 @@ pub mod data_ops {
     use std::fs;
     use std::fs::OpenOptions;
     use std::io::{BufReader, Write};
-    use std::path::Path;
     use std::path::PathBuf;
 
     use clap::{Arg, ArgMatches};
@@ -88,6 +87,8 @@ pub mod data_ops {
         pub entrypoint: String,
         pub project: String,
         pub python_interpreter: String,
+        pub python_env: String,
+        pub scripts: std::collections::HashMap<String, String>,
         pub data: DataBlock,
         pub models: Models,
     }
@@ -130,7 +131,7 @@ pub mod data_ops {
     #[derive(Serialize, Deserialize)]
     pub struct ModelClass {
         pub path: String,
-        pub name: String
+        pub name: String,
     }
 
     pub fn add_to_sp(

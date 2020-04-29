@@ -1,19 +1,10 @@
 pub mod package_boilerplate {
-    use std;
-    use std::env;
-    use std::fs;
-    use std::io::{BufRead, BufReader, Error, Write};
-    use std::path::Path;
-    use std::path::PathBuf;
-
-    use clap::{App, Arg, ArgMatches, SubCommand};
     use clap_nested;
 
     use colored::Colorize;
 
     extern crate serde;
     extern crate serde_json;
-    use serde::ser::Serializer;
 
     use dialoguer::{Checkboxes, Confirmation, Input};
 

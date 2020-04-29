@@ -1,15 +1,10 @@
 pub mod api_ops {
     use std;
-    use std::borrow::BorrowMut;
-    use std::cell::RefCell;
-    use std::env;
     use std::fs;
-    use std::fs::OpenOptions;
-    use std::io::{BufReader, Write};
-    use std::path::Path;
+    use std::io::Write;
     use std::path::PathBuf;
 
-    use clap::{Arg, ArgMatches};
+    use clap::ArgMatches;
     use clap_nested;
     use colored::Colorize;
 

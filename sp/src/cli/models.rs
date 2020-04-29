@@ -1,13 +1,10 @@
 pub mod model_ops {
     use std;
-    use std::borrow::BorrowMut;
-    use std::cell::RefCell;
     use std::collections::HashMap;
     use std::env;
     use std::fs;
     use std::fs::OpenOptions;
     use std::io::{BufReader, Write};
-    use std::path::Path;
     use std::path::PathBuf;
 
     use clap::{Arg, ArgMatches};
@@ -16,9 +13,6 @@ pub mod model_ops {
 
     extern crate serde;
     extern crate serde_json;
-    use serde::{Deserialize, Serialize};
-
-    use dialoguer::{Checkboxes, Confirmation, Input};
 
     use crate::cli;
 
@@ -101,5 +95,4 @@ pub mod model_ops {
         let contents = String::from_utf8_lossy(var_bytes);
         return contents.to_string();
     }
-
 }

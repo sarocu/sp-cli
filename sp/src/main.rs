@@ -10,7 +10,7 @@ use clap_nested::{Commander, MultiCommand};
 mod cli;
 
 fn main() {
-    let multi_cmd: MultiCommand<(str), (str)> = Commander::new()
+    let multi_cmd: MultiCommand<str, str> = Commander::new()
         .add_cmd(cli::project_boilerplate::project_cmd())
         .add_cmd(cli::package::package_boilerplate::package_cmd())
         .add_cmd(cli::charts::viz::chart_cmd())
@@ -34,6 +34,7 @@ fn main() {
         })
         .args(|_args, matches| matches.value_of("environment").unwrap_or("dev"))
         .add_cmd(multi_cmd)
+        .add_cmd(cli::run::run_ops::run_cmd())
         .no_cmd(|_args, _matches| {
             cli::version::version_info();
             Ok(())

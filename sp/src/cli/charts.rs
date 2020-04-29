@@ -1,10 +1,9 @@
 pub mod viz {
     use std;
+    use std::collections::HashMap;
     use std::env;
     use std::fs;
-    use std::fs::File;
-    use std::collections::HashMap;
-    use std::io::{Write, Read};
+    use std::io::Write;
 
     use clap_nested;
 
@@ -30,7 +29,6 @@ pub mod viz {
                     .item("Timeseries Chart")
                     .interact()?;
 
-                
                 let dispatch = {
                     let mut chart_type: HashMap<usize, (String, String)> = HashMap::new();
                     chart_type.insert(0, bar_charts());

@@ -1,5 +1,6 @@
 atomicwrites==1.2.1
 attrs==19.1.0
+black==19.10b0
 bokeh==2.0.1
 certifi==2019.6.16
 cffi==1.12.3
