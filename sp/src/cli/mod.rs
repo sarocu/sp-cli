@@ -40,6 +40,7 @@ pub mod project_boilerplate {
                     Arg::with_name("python")
                         .short("p")
                         .long("python")
+                        .required(false)
                         .takes_value(true)
                         .value_name("STRING")
                         .help("Set the path for the preferred python interpreter"),
@@ -47,6 +48,8 @@ pub mod project_boilerplate {
                 .arg(
                     Arg::with_name("pipenv")
                         .long("pipenv")
+                        .required(false)
+                        .takes_value(false)
                         .help("toggles package setup with pipenv instead of virtualenv"),
                 )
             })

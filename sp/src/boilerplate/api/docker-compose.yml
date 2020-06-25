@@ -1,0 +1,29 @@
+version: "3"
+services:
+  flask:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./api:/code/api
+      - ./gunicorn:/gunicorn
+    links:
+      - redis
+      - worker
+    command: /usr/local/bin/supervisord -c /gunicorn/supervisord.conf
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5672:5672"
+    volumes:
+      - ./api:/code/api
+      - ./gunicorn:/gunicorn
+    command: celery -A api.default_queue worker

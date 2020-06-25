@@ -1,5 +1,5 @@
 FROM ubuntu:18.04
-RUN apt-get update && apt-get install -y software-properties-common curl libpq-dev build-essential
+RUN apt-get update && apt-get install -y software-properties-common curl libpq-dev build-essential libatlas-base-dev libssl-dev libffi-dev gfortran
 RUN add-apt-repository ppa:deadsnakes/ppa -y
 
 RUN apt-get update \
@@ -17,6 +17,7 @@ RUN pip3.8 install -r requirements.txt
 
 COPY api/* /code/api/
 COPY setup.py /code/
+RUN pip3.8 install -e /code/.
 
 RUN mkdir /gunicorn
 COPY gunicorn/* /gunicorn/

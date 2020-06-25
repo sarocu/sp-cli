@@ -72,7 +72,7 @@ pub mod api_ops {
                 if add_queue {
                     println!("{}", "Adding Celery and Redis  🧱  assets".cyan());
                     let mut celery_text =
-                        fs::File::create(PathBuf::from("./").join("api").join("celery.py"))?;
+                        fs::File::create(PathBuf::from("./").join("api").join("default_queue.py"))?;
                     celery_text.write_all(get_celery().as_bytes());
 
                     let mut task_text =
@@ -118,7 +118,7 @@ pub mod api_ops {
     }
 
     pub fn get_celery() -> std::string::String {
-        let get_bytes = include_bytes!("../boilerplate/api/queue/celery.py");
+        let get_bytes = include_bytes!("../boilerplate/api/queue/default_queue.py");
         let contents = String::from_utf8_lossy(get_bytes);
         return contents.to_string();
     }
