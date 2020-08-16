@@ -60,23 +60,28 @@ pub mod data_ops {
 
             let selected_items = select_data.with_prompt(&format!("{}", "Which columns would you like to add to a dataframe? (hint: use space bar to select)".cyan())).interact()?;
 
-            let mut has_date = Select::new();
+            let mut date_column = Select::new();
             for column in headers {
-                has_date.item(column);
+                date_column.item(column);
             }
-
-            let date_var = has_date.with_prompt(&format!("{}", "Is one of these columns a date or datetime? (hint: use space bar to select)".cyan())).interact()?;
-
-            let config_path = find_sp_config();
 
             let mut fields_for_df = Vec::new();
             for index in selected_items {
                 fields_for_df.push(headers[index].into());
             }
 
-            let mut date_var = headers[date_var].to_string();
+            let config_path = find_sp_config();
 
-            add_to_sp(&save_path, &data_name, fields_for_df, config_path, &date_var);
+            let has_date = Confirmation::new().with_text("Does this file contain a date or datetime column?").interact()?;
+
+            if has_date {
+                let date_var = date_column.with_prompt(&format!("{}", "Is one of these columns a date or datetime? (hint: use space bar to select)".cyan())).interact()?;
+                add_to_sp(&save_path, &data_name, fields_for_df, config_path, &date_var.to_string());
+            } else {
+                add_to_sp(&save_path, &data_name, fields_for_df, config_path, &String::from(""));
+            }
+
+            println!("{}", "complete!".cyan());
             Ok(())
         })
     }

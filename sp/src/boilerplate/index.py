@@ -1,7 +1,17 @@
 import json
 import csv
 import pandas
+import logging
+import logging.handlers
 
+handler = logging.handlers.RotatingFileHandler(
+    filename="./output/project.log",
+    maxBytes=1000000
+)
+handler.setFormatter(logging.Formatter(logging.BASIC_FORMAT))
+log = logging.getLogger("project.error")
+log.setLevel("INFO")
+log.addHandler(handler)
 
 class Index:
     def __init__(self):
@@ -30,7 +40,7 @@ class Index:
 
 
 project = Index()
-
+log.info("ready")
 """
     Your code starts here:
 """

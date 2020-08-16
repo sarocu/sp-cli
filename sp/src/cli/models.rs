@@ -35,14 +35,13 @@ pub mod model_ops {
 
                 println!("Creating a new {} model", model_type.cyan());
 
-                let dispatch = {
-                    let mut creator: HashMap<String, String> = HashMap::new();
-                    creator.insert("simple-linear".into(), simple_linear());
-                    creator.insert("vector-ar".into(), simple_linear());
-                    creator
-                };
+                let mut creator: HashMap<String, String> = HashMap::new();
+                creator.insert("simple-linear".into(), simple_linear());
+                creator.insert("vector-ar".into(), vector_ar());
+                creator.insert("mlpr".into(), mlpr());
+                creator.insert("pca".into(), pca());
 
-                let new_model_text = &dispatch[&model_type.to_string()];
+                let new_model_text = &creator[&model_type.to_string()];
                 let config_path = cli::data::data_ops::find_sp_config();
                 println!("updating configs at: {}", config_path.to_string_lossy());
                 let mut new_model_path = env::current_dir().unwrap();
@@ -93,6 +92,18 @@ pub mod model_ops {
     pub fn vector_ar() -> std::string::String {
         let var_bytes = include_bytes!("../boilerplate/var.py");
         let contents = String::from_utf8_lossy(var_bytes);
+        return contents.to_string();
+    }
+
+    pub fn mlpr() -> std::string::String {
+        let mlpr_bytes = include_bytes!("../boilerplate/mlpr.py");
+        let contents = String::from_utf8_lossy(mlpr_bytes);
+        return contents.to_string();
+    }
+
+    pub fn pca() -> std::string::String {
+        let pca_bytes = include_bytes!("../boilerplate/pca.py");
+        let contents = String::from_utf8_lossy(pca_bytes);
         return contents.to_string();
     }
 }

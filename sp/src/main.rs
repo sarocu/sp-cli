@@ -4,7 +4,7 @@ extern crate clap;
 #[macro_use]
 extern crate serde_json;
 
-use clap::{Arg};
+use clap::Arg;
 use clap_nested::{Commander, MultiCommand};
 
 mod cli;

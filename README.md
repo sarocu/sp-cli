@@ -42,6 +42,16 @@ Select a chart type to add::
   Timeseries Chart
 ```
 
+### Model Structure
+Superplus are configured as sets of models, visualizations, and data files that have a common entrypoint, `index.py` which you can run with a `sp run start`. Of course you can define any number of scripts to run and add them to `sp.json` or add command line options to `index` to customize your scripts. With this in mind, a Superplus model implements basic functionality and the entrypoint file is expected to perform any data transformations that are necessary. 
+
+### Available Models
+| type | description |
+| `simple-linear` | Scikit-Learn linear regression |
+| `vector-ar` | Statsmodels vectorized autoregressive time-series |
+| `pca` | Scikit-Learn principle components |
+| `mlpr` | Scikit-Learn nueral net multi-layer perceptron regressor |
+
 ### Using Pipenv instead of Pip
 When creating a new project, add the `--pipenv` flag to make sp install dependencies and run scripts using pipenv:
 ```bash
