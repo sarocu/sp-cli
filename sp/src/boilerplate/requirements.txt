@@ -9,7 +9,7 @@ chardet==3.0.4
 Click==7.0
 docker==4.0.2
 idna==2.8
-Jinja2==2.11.1
+Jinja2==2.11.3
 joblib==0.16.0
 MarkupSafe==1.1.1
 more-itertools==4.3.0
